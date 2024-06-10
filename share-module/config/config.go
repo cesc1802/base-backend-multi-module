@@ -1,31 +1,58 @@
 package config
 
-import "time"
+import (
+	"fmt"
+	"strings"
+	"time"
+
+	"github.com/spf13/viper"
+)
 
 type DBConfig struct {
-	Host     string
-	Port     string
-	UserName string
-	Password string
-	Name     string
+	Host       string `mapstructure:"HOST"`
+	DBPort     string `mapstructure:"PORT"`
+	DBUserName string `mapstructure:"USERNAME"`
+	DBPassword string `mapstructure:"PASSWORD"`
+	DBName     string `mapstructure:"NAME"`
 }
 
 func (dbc DBConfig) Uri() string {
-	return ""
+	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		dbc.Host, dbc.DBUserName, dbc.DBPassword, dbc.DBName, dbc.DBPort)
 }
 
 type WebConfig struct {
-	Host string `default:"0.0.0.0"`
-	Port string `default:":8080"`
+	Host string `mapstructure:"HOST"`
+	Port string `mapstructure:"PORT"`
 }
 
 func (wc WebConfig) Address() string {
-	return ""
+	return fmt.Sprintf(":%s", wc.Port)
 }
 
 type AppConfig struct {
-	Env             string
-	ShutdownTimeout time.Duration
-	Web             WebConfig
-	DB              DBConfig
+	Env             string        `mapstructure:"ENV"`
+	ShutdownTimeout time.Duration `mapstructure:"SHUTDOWN_TIMEOUT"`
+	Web             WebConfig     `mapstructure:"WEB"`
+	DB              DBConfig      `mapstructure:"DB"`
+}
+
+func LoadAppConfig(path string) (AppConfig, error) {
+
+	var cfg AppConfig
+	viper.AddConfigPath(path)
+	viper.SetConfigType("env")
+	viper.SetConfigFile(".env")
+	viper.EnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	viper.AutomaticEnv()
+
+	if err := viper.ReadInConfig(); err != nil {
+		return cfg, err
+	}
+
+	if err := viper.Unmarshal(&cfg); err != nil {
+		return cfg, err
+	}
+	return cfg, nil
 }

@@ -3,13 +3,13 @@ package cmd
 import (
 	"log"
 
-	"auth-module/cmd/migrate"
-	"auth-module/cmd/server"
+	"github.com/cesc1802/auth-module/cmd/migrate"
+	"github.com/cesc1802/auth-module/cmd/server"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:              "auth-module",
+	Use:              "github.com/cesc1802/auth-module",
 	Short:            "This is authentication module",
 	TraverseChildren: true,
 }

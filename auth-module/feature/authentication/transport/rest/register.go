@@ -3,11 +3,11 @@ package rest
 import (
 	"net/http"
 
-	"auth-module/feature/authentication/dto"
-	"auth-module/feature/authentication/storage"
-	"auth-module/feature/authentication/usecase"
+	"github.com/cesc1802/auth-module/feature/authentication/dto"
+	"github.com/cesc1802/auth-module/feature/authentication/storage"
+	"github.com/cesc1802/auth-module/feature/authentication/usecase"
+	"github.com/cesc1802/share-module/system"
 	"github.com/gin-gonic/gin"
-	"share-module/system"
 )
 
 func Register(mono system.Service) gin.HandlerFunc {

@@ -1,0 +1,45 @@
+version: '3.7'
+name: authentication-service
+services:
+  auth-backend-api:
+    container_name: auth-backend-api
+    build:
+      context: ../
+      dockerfile: ./deployment/Dockerfile
+    env_file:
+      - "../.env"
+    ports:
+      - "8080:8080"
+    networks:
+      - auth_service_network
+    depends_on:
+      auth-backend-db:
+        condition: service_healthy
+
+  auth-backend-db:
+    container_name: auth-backend-db
+    image: bitnami/postgresql:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_USERNAME=backend
+      - POSTGRESQL_PASSWORD=backend@123
+      - POSTGRESQL_DATABASE=authentication
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - auth_service_network
+    volumes:
+      - auth_db_volume:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U backend" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  auth_db_volume:
+
+networks:
+  auth_service_network:
+    driver: bridge
+

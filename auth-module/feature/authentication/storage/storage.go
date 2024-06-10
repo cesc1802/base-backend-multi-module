@@ -3,7 +3,7 @@ package storage
 import (
 	"context"
 
-	"auth-module/feature/authentication/domain/entity"
+	"github.com/cesc1802/auth-module/feature/authentication/domain/entity"
 	"gorm.io/gorm"
 )
 

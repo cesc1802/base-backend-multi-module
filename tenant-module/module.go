@@ -2,7 +2,8 @@ package tenant_module
 
 import (
 	"context"
-	"share-module/system"
+
+	"github.com/cesc1802/share-module/system"
 )
 
 type Module struct{}

@@ -2,10 +2,12 @@ package system
 
 import (
 	"context"
+
+	"github.com/cesc1802/share-module/config"
+	"github.com/cesc1802/share-module/tokprovider"
+	"github.com/cesc1802/share-module/waiter"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"share-module/config"
-	"share-module/waiter"
 )
 
 type Service interface {
@@ -13,6 +15,7 @@ type Service interface {
 	DB() *gorm.DB
 	Router() *gin.Engine
 	Waiter() waiter.Waiter
+	TokenProvider() tokprovider.TokenProvider
 }
 
 type Module interface {

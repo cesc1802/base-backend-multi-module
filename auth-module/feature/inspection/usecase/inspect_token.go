@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"auth-module/feature/inspection/domain/entity"
-	"share-module/common"
+	"github.com/cesc1802/auth-module/feature/inspection/domain/entity"
+	"github.com/cesc1802/share-module/common"
 )
 
 type UserStore interface {
@@ -28,13 +28,13 @@ func NewInspectToken(store UserStore, tokenProvider TokenProvider) *InspectToken
 	}
 }
 
-func (uc *InspectTokenUseCase) Register(ctx context.Context, token string) error {
+func (uc *InspectTokenUseCase) Inspect(ctx context.Context, token string) error {
 	requester, err := uc.tokenProvider.Extract(token)
 	if err != nil {
 		return errors.New("extract token error")
 	}
 
-	user, err := uc.store.Find(ctx, requester.UserID())
+	user, err := uc.store.Find(ctx, requester.GetUserID())
 	if err != nil {
 		return errors.New("cannot find user")
 	}

@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"auth-module/feature/authentication/domain/entity"
-	"auth-module/feature/authentication/dto"
+	"github.com/cesc1802/auth-module/feature/authentication/domain/entity"
+	"github.com/cesc1802/auth-module/feature/authentication/dto"
 
 	"context"
 	"errors"

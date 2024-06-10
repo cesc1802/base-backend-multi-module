@@ -1,6 +1,6 @@
 package main
 
-import "auth-module/cmd"
+import "github.com/cesc1802/auth-module/cmd"
 
 func main() {
 	cmd.Execute()

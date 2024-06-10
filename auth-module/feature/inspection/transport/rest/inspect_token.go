@@ -3,21 +3,21 @@ package rest
 import (
 	"net/http"
 
-	"auth-module/feature/authentication/dto"
-	"auth-module/feature/authentication/storage"
-	"auth-module/feature/authentication/usecase"
+	"github.com/cesc1802/auth-module/feature/inspection/storage"
+	"github.com/cesc1802/auth-module/feature/inspection/usecase"
+	"github.com/cesc1802/share-module/system"
 	"github.com/gin-gonic/gin"
-	"share-module/system"
 )
 
 func InspectToken(mono system.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := mono.DB()
+		tokProvider := mono.TokenProvider()
 
 		store := storage.NewSqlStorage(db)
-		uc := usecase.NewRegisterUserUseCase(store)
+		uc := usecase.NewInspectToken(store, tokProvider)
 
-		if err := uc.Register(c.Request.Context(), dto.RegisterRequest{}); err != nil {
+		if err := uc.Inspect(c.Request.Context(), "dto.RegisterRequest{}"); err != nil {
 			c.JSON(http.StatusBadRequest, map[string]any{
 				"message": "bad request",
 			})
